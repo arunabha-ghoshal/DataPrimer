@@ -1,2 +1,2 @@
-# life_sucks
-Data Science and stuff
+# DataPrimer
+Data Structure, Engineer , Science and stuff
