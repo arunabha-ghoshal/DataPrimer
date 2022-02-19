@@ -1,0 +1,102 @@
+#kodekloud - DevOps Basics
+
+to check the type of shells(sh, csh, zsh, bash)
+> echo $SHELL
+
+to check the linux distribution/version
+> hostnamectl
+> cat /ect/os-release
+> uname -r
+
+Vi editor: coomand and Editor mode : (i) - to enter , (esc) - to escape 
+
+Command Mode : 
+to delete a character : (x)
+to delete the entire line : (dd)
+to copy a line : (yy)
+to paste a line : (p)
+to scroll up/down : (ctrl+u)/(ctrl+d)
+
+to save the changes : (:w)
+quit(Discard) : (:q)
+save + quit : (:wq)
+find : (/) to move through the found occurences : (n)
+
+to switch user:
+>su <user_name>
+
+Sudo privileges : /etc/sudoers
+
+package management:
+
+rpm (red hat package manager)
+
+install package : rpm -i telnet.rpm
+uninstall : rpm -e telnet.rpm
+query : rpm -q telnet.rpm
+to list the package installed : rpm -qa | grep <package_name> 
+rpm -e <package_name>
+
+
+YUM : high level package manger created on top of rpm to query external package dependencies install them along 
+with the package itself
+
+> yum install ansible-<version>
+yum reposlist
+ls /etc/yum.repos.d/
+
+yum repos are used to install packages from, which can be configured to install custom version of packages 
+
+to list the list of packages installed
+> yum list <package_name>
+yum --showduplicates list <package_name>
+
+> yum remove <package_name>
+
+
+
+to start a service
+> service <service_name> start
+> systemctl start <service_name>
+
+to stop
+> systemctl stop <service_name>
+
+to check the status of the service
+> systemctl status <service_name>
+
+to configure the service named docker to start at bootup/startup of the server where it is installed.
+> systemctl enable docker
+
+to configure the service named docker to stop from starting at bootup/startup of the server where it is installed.
+> systemctl disable docker
+
+to configure a program to be setup as service which can be started/stopped/enabled/disabled using systemctl
+/etc/systemd/system
+
+once a .service is added to this file , we need to reload the systemd deamons to pick up the new file .service as service
+> systemctl daemon-reload
+
+example.service
+---------------------
+[Unit]
+Description=My python web app
+
+[Service]
+ExecStart=<command>
+ExecStartPre=/opt/code/configure_db.sh
+ExecStartPost=/opt/code/email.sh
+Restart=always
+
+
+[install]
+wantedBy=multi-user.target
+
+
+
+
+
+
+
+
+
