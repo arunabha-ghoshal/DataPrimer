@@ -1,1 +1,122 @@
 #notes:
+follow docker installation steps : using get-docker.sh from the official website : docs.docker.com (get docker)
+(use of sudo is subjected to the permissions needed to run docker)
+
+docker host : the node/compuer/server/os where docker is installed to use docker services.
+
+to start docker services :
+
+either :
+$ sudo service docker start
+
+or :
+
+$ sudo dockerd
+
+or :
+
+$ sudo systemctl enable docker
+$ sudo systemctl start docker
+
+check the version:
+$ sudo docker version
+
+basic commands:
+1. docker run : to instantiate a docker image into a running instance called a container 
+ps : running instance of a Docker Image is called an Container and hence in short, docker run command is used to run
+a container from a docker image:
+$ sudo docker run nginx
+
+2. docker ps command is used to list all running containers
+$ sudo docker ps 
+to list all the running/non-running/exited/ever existed containers on the current docker host:
+$ sudo docker ps -a
+
+3. to stop a running container :
+$ sudo docker stop <container_id>/<container_name>
+
+4. to remove a stopped/exited container and hence free up the space on docker host:
+$ sudo docker rm <container_id>/<container_name>
+
+5. to list the docker images downloaded to loacal host from dockerhub(or via own dockerFile):
+$ sudo docker images
+
+6. to remove an image from local host , we 1st need to make sure we have stopped and removed all the containers
+of that particular image before attempting to remove the image itself.
+and then to remove the image:
+$ sudo docker rmi <image_name>
+
+(not going to mention sudo anymore)
+7. To just download a docker image to docker host from docker hub withput running it :
+$ docker pull <image_name>
+
+8. if a container doesn't contain a process in it in that case when docker run command runs an container and exits immediately.
+for example any operating system images .
+$ docker run ubuntu
+
+the container will exit as soon as it finishes running , because it doesn't have any process to run.
+to make it run for some time we can append command.
+$ docker run ubuntu sleep 10
+
+9. to execute a command on a running container:
+$ docker exec <container_name/id> <command>
+$ docker exec ubuntu cat /etc/host
+
+
+10. run - attach & detach
+by default docker runs the container on attached mode. the prompy becomes busy if the conainer has such process.
+in that case we can run the containers in detach mode.
+$ docker run -d ubuntu sleep 100
+
+to reattach the container on current prompt :
+docker attach <container_id>
+
+to automatically be logged into a container when it is being run: we can use the option -it
+docker run -it centos bash
+
+while running a container we can also name the running container :
+docker run -d --name webapp nginx:1.14-alpine
+
+
+
+docker run :
+============================
+to run a specific version of image:
+$ docker run <image_name>:<tag>
+$ docker run redis:4.0
+
+to map our stdin to a docker container so that we can provide input to our container from stdin :(interactive mode)
+$ docker run -i <image_name>
+
+to directly connect to our container's prompt (stdin) instead of enabling input from docker host (my laptop) stdin 
+we can use -it (t stands for pseudo terminal)
+so to directly intercat with my container's prompt/terminal/stdin:
+$ docker run -it <image_name>
+
+port-mapping:
+$ docker run -p <port for docker host ip>:<port of container ip where the app is running> <image_name>
+ps : underlying host(server/node/laptop) where docker is installed is called docker host/engine.
+
+volume-mapping
+$ docker run -r <dir on docker host>:<data dir on container> mysql
+
+inspect container:
+$ docker inspect <container name/id>
+
+
+container logs:
+when we run any container in detached -d mode, we don't get to see the logs of the container on the stdin of our
+docker host , in that case 
+$ docker logs <container name/id>
+
+
+
+
+
+
+
+
+
+
+
+
