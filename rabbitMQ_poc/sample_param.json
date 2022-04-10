@@ -1,0 +1,13 @@
+{
+    "spark_master" : "yarn",
+    "job_name" : "DAC_S00001W_BDI_AICE_WEX_ITM_T085_HDFS",
+    "spark_app": "/hadoopData/bdipoc/poc/python/beepz/python/DAC_S00001W_BDI_AICE_WEX_ITM_T085_HDFS.py",
+    "executor-memory" : "5G",
+    "driver-memory" : "2G",
+    "num-executors": "2",
+    "executor-cores":"2",
+    "rdbms" : "Y",
+    "conn_properties" : "/hadoopData/bdipoc/poc/properties/test_connection.json",
+    "arguments" : ["indicator","spark app 1","./sample_param.json"],
+    "process_overload" : "low"
+}
