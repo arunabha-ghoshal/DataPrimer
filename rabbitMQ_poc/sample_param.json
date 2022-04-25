@@ -1,5 +1,5 @@
 {
-    "spark_master" : "yarn",
+    "spark_master" : "standalone",
     "job_name" : "DAC_S00001W_BDI_AICE_WEX_ITM_T085_HDFS",
     "spark_app": "/hadoopData/bdipoc/poc/python/beepz/python/DAC_S00001W_BDI_AICE_WEX_ITM_T085_HDFS.py",
     "executor-memory" : "5G",

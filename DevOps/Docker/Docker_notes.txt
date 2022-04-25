@@ -97,6 +97,9 @@ port-mapping:
 $ docker run -p <port for docker host ip>:<port of container ip where the app is running> <image_name>
 ps : underlying host(server/node/laptop) where docker is installed is called docker host/engine.
 
+volume mapping:
+docker run -p 8080:8080 -v <volume_of_docker_host>:<volume_of_container> -u <some_user> jenkins
+
 volume-mapping
 $ docker run -r <dir on docker host>:<data dir on container> mysql
 
@@ -111,12 +114,136 @@ $ docker logs <container name/id>
 
 
 
+How to create your own image :
+=================================
+1. Create a dockerfile with all the instruction/steps
+2. docker build Dockerfile -t biswadeep27/my-custom-app:tag
+docker login
+3. docker push  biswadeep27/my-custom-app (to push the image to docker registry : in this case docker hub)
+
+Environment variable in container:
+$ docker run -e APP_COLOR=blue <my-app-image>
+
+to inspect env variable of a running container:
+$ docker inspect <container-name>
 
 
 
+Run the command : docker run -p 38282:8080 --name blue-app -e APP_COLOR=blue -d kodekloud/simple-webapp
+To know the env field from within a webapp container, run 
+$ docker exec -it <container-name> env
 
 
 
+Run the command: docker run -d -e MYSQL_ROOT_PASSWORD=db_pass123 --name mysql-db mysql
+To know the env field from within a mysql-db container, run 
+$ docker exec -it <container-name> env
+
+to set the name of a container we can pass on the --name argument.
+
+Commands & Entrypoints:
+=======================
+Command:
+the dafault command to run when the container is started is described by CMD and the container lives until the CMD command process is active.
+CMD ["bash"]
+CMD ["command","prm1"...]
+CMD commad prm1 ...
+
+Entrypoints: 
+In this case the command line arguments if any get appended after the instruction mentioned by ENTRYPOINT.
+
+Image:
+From ubuntu
+
+ENTRYPOINT ["sleep]
+
+dockername : ubuntu-sleeper
+
+$ docker run ubuntu-sleeper 10
+which is equivalent of 
+CMD sleep 10
+
+command line parametes override CMD but appends after ENTRYPOINT.
+
+to give a default prm to ENTRYPOINT we can have a CMD:
+Image:
+From ubuntu
+
+ENTRYPOINT ["sleep"]
+CMD ["5"]
+
+to override entrypoint at run time , use --entrypoint
+docker run --entrypoint <imaginery-sleep-cmd> ubuntu-sleeper 10
 
 
+
+Docker Compose:
+====================
+write a yml file with all the docker run instructions and then run
+$ docker-compose up
+
+we can use --link to establish links between multiple running containers
+
+let's say cnt1 is dependednt on cnt2 and cnt2 is already up and running by the name TBND.(docker run --name TBND <cnt2_image>)
+in code of cnt1 we are looking up for cnt2 by the name TGND.
+so while starting cnt1 ,
+$ docker run TGND:TBND <cnt1_iamge>
+
+===========
+docker CLI
+docker Rest APIs
+docker Daemons
+
+====
+docker -H=remote-docker-engine:2345 run redis
+====
+docker run --cpus=.5 ubuntu
+docker run --memory=100m ubuntu
+
+docker run -v /data/mysql:/var/lib/mysql mysql
+or
+docker run --mount type=bind,source=/data/mysql,target=/var/lib/mysql mysql
+
+2 types : bind or volume 
+
+docker exec mysql-db mysql -pdb_pass123 -e 'use foo; select * from myTable'
+
+
+
+Networking:
+by default docker created 3 networks : bridge,none,host
+when we run a container it gets linked to bridge network
+
+$ docker run --network=host ubuntu
+
+docker network ls
+docker inspect <container_name>
+docker network inspect bridge
+docker network create --driver bridge --subnet 182.18.0.1/24 --gateway 182.18.0.1 wp-mysql-network
+docker network inspect wp-mysql-network
+docker run -d -e MYSQL_ROOT_PASSWORD=db_pass123 --name mysql-db --network wp-mysql-network mysql:5.6
+docker run --network=wp-mysql-network -e DB_Host=mysql-db -e DB_Password=db_pass123 -p 38080:8080 --name webapp 
+--link mysql-db:mysql-db -d kodekloud/simple-webapp-mysql
+
+docker registry: (in the command registry should always be mentioned without https://)
+===============
+docker run/pull/push <registry>/<user-account>/<image-repo>:tag
+e-din-docker-local.docker.lowes.com/daci/spark-py:spark-3.1.1
+
+we can tag our local image for a specific private registry:
+docker image tag my-image <registry:port>/my-image
+docker push <registry:port>/my-image
+
+docker run -d -p 5000:5000 --restart=always --name my-registry registry:2
+docker image tag nginx:latest localhost:5000/nginx:latest
+docker push localhost:5000/nginx:latest
+
+or 
+$ docker login https://e-din-docker-local.docker.lowes.com
+docker build . -t e-din-docker-local.docker.lowes.com/${projectName}/${appName}:${imgTg}
+docker push e-din-docker-local.docker.lowes.com/${projectName}/${appName}:${imgTg}
+
+
+to remove all the dangling imnages locally:
+docker image prune -a
 
