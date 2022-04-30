@@ -155,7 +155,7 @@ In this case the command line arguments if any get appended after the instructio
 Image:
 From ubuntu
 
-ENTRYPOINT ["sleep]
+ENTRYPOINT ["sleep"]
 
 dockername : ubuntu-sleeper
 
