@@ -247,3 +247,15 @@ docker push e-din-docker-local.docker.lowes.com/${projectName}/${appName}:${imgT
 to remove all the dangling imnages locally:
 docker image prune -a
 
+
+
+/Users/bupadhy/pg
+
+docker run -d \
+	--name pg-raj \
+	-e POSTGRES_PASSWORD=postgres \
+	-e PGDATA=/var/lib/postgresql/data/pgdata \
+	-v /Users/bupadhy/pg:/var/lib/postgresql/data \
+	postgres
+
+docker run -d --name pg-raj -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v /Users/bupadhy/pg:/var/lib/postgresql/data postgres

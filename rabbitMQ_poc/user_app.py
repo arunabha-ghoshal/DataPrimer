@@ -2,7 +2,6 @@ from  clientSCP import SCP
 import os
 import sys
 import json
-
 v_attr_lst = './sample_param.json'
 try:
     with open(v_attr_lst,'r') as attr_conf:
