@@ -1,0 +1,14 @@
+findFranchise: BenStokes
+findFranchise: RobinUthappa
+findFranchise: RAshwin
+findFranchise: Messi
+findFranchise: DineshKarthik
+listPlayers: RR
+listPlayers: SRH
+listPlayers: Barcelona
+listPlayers: DD
+franchiseBuddies: KrunalPandya : KieronPollard
+franchiseBuddies: DwayneBravo : IshanKishan
+franchiseBuddies: RAshwin : ShikharDhawan
+playerConnect: KedarJadhav : IshanKishan
+playerConnect: GlennMaxwell : DineshKarthik

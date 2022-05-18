@@ -1,0 +1,13 @@
+#ignore the below files from getting committed
+*.log
+*.jar
+*.parquet
+*.csv
+**/ivy*
+**/__pycache__
+**/build
+**/.eggs
+**/.pytest_cache
+**data/
+*.ipynb_checkpoints
+*.bin

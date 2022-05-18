@@ -1,0 +1,153 @@
+--------Function displayAll--------
+Total no. of franchises: 10
+Total no. of players: 27
+List of franchises:
+RR
+KXIP
+KKR
+SRH
+MI
+CSK
+RCB
+DD
+GL
+RPS
+
+
+List of Players:
+BenStokes
+JaydevUnadkat
+SanjuSamson
+JofraArcher
+GKrishnappa
+KLRahul
+RAshwin
+AndrewTye
+MarcusStoinis
+GlennMaxwell
+ChrisLynn
+MitchellStarc
+DineshKarthik
+RobinUthappa
+ManishPandey
+ChrisWoakes
+RashidKhan
+ShikharDhawan
+KrunalPandya
+IshanKishan
+KieronPollard
+KedarJadhav
+DwayneBravo
+KarnSharma
+YuzvendraChahal
+UmeshYadav
+KarunNair
+
+
+--------Function displayFranchises --------
+
+Player Name: BenStokes
+List of Franchises:
+RR
+RPS
+
+
+--------Function displayFranchises --------
+
+Player Name: RobinUthappa
+List of Franchises:
+KKR
+
+
+--------Function displayFranchises --------
+
+Player Name: RAshwin
+List of Franchises:
+KXIP
+
+
+--------Function displayFranchises --------
+
+Player Name: Messi
+List of Franchises:
+Franchises Not Found
+
+
+--------Function displayFranchises --------
+
+Player Name: DineshKarthik
+List of Franchises:
+KKR
+GL
+
+
+--------Function displayPlayers--------
+
+Franchise Name: RR
+List of Players:
+BenStokes
+JaydevUnadkat
+SanjuSamson
+JofraArcher
+GKrishnappa
+
+
+--------Function displayPlayers--------
+
+Franchise Name: SRH
+List of Players:
+ManishPandey
+RashidKhan
+ShikharDhawan
+
+
+--------Function displayPlayers--------
+
+Franchise Name: Barcelona
+List of Players:
+Players Not Found
+
+
+--------Function displayPlayers--------
+
+Franchise Name: DD
+List of Players:
+SanjuSamson
+GlennMaxwell
+KedarJadhav
+KarunNair
+
+
+--------Function franchiseBuddies--------
+
+Player A: KrunalPandya
+Player B: KieronPollard
+Franchise Buddies: Yes , MI 
+
+
+--------Function franchiseBuddies--------
+
+Player A: DwayneBravo
+Player B: IshanKishan
+Franchise Buddies: Yes , GL 
+
+
+--------Function franchiseBuddies--------
+
+Player A: RAshwin
+Player B: ShikharDhawan
+Franchise Buddies: No, RAshwin and ShikharDhawan have not played for same team
+
+
+--------Function findPlayerConnect --------
+
+Player A: KedarJadhav
+Player B: IshanKishan
+Related: Yes, KedarJadhav > CSK > DwayneBravo > GL > IshanKishan
+
+
+--------Function findPlayerConnect --------
+
+Player A: GlennMaxwell
+Player B: DineshKarthik
+Related: Yes, GlennMaxwell > KXIP > AndrewTye > GL > DineshKarthik

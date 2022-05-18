@@ -1,0 +1,9 @@
+--------------------Police List------------------
+Police ID, No of Bookings
+300,1
+600,2
+--------------------Police Top 10------------------
+Police ID, No of Bookings, total fine amount
+100,11,12000
+600,2,1400
+300,1,700

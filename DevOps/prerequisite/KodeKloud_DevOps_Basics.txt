@@ -1,0 +1,274 @@
+#kodekloud - DevOps Basics
+
+to check the type of shells(sh, csh, zsh, bash)
+> echo $SHELL
+
+to check the linux distribution/version
+> hostnamectl
+> cat /ect/os-release
+> uname -r
+
+Vi editor: coomand and Editor mode : (i) - to enter , (esc) - to escape 
+
+Command Mode : 
+to delete a character : (x)
+to delete the entire line : (dd)
+to copy a line : (yy)
+to paste a line : (p)
+to scroll up/down : (ctrl+u)/(ctrl+d)
+
+to save the changes : (:w)
+quit(Discard) : (:q)
+save + quit : (:wq)
+find : (/) to move through the found occurences : (n)
+
+to switch user:
+>su <user_name>
+
+Sudo privileges : /etc/sudoers
+
+package management:
+
+rpm (red hat package manager)
+
+install package : rpm -i telnet.rpm
+uninstall : rpm -e telnet.rpm
+query : rpm -q telnet.rpm
+to list the package installed : rpm -qa | grep <package_name> 
+rpm -e <package_name>
+
+
+YUM : high level package manger created on top of rpm to query external package dependencies install them along 
+with the package itself
+
+> yum install ansible-<version>
+yum reposlist
+ls /etc/yum.repos.d/
+
+yum repos are used to install packages from, which can be configured to install custom version of packages 
+
+to list the list of packages installed
+> yum list <package_name>
+yum --showduplicates list <package_name>
+
+> yum remove <package_name>
+
+
+
+to start a service
+> service <service_name> start
+> systemctl start <service_name>
+
+to stop
+> systemctl stop <service_name>
+
+to check the status of the service
+> systemctl status <service_name>
+
+to configure the service named docker to start at bootup/startup of the server where it is installed.
+> systemctl enable docker
+
+to configure the service named docker to stop from starting at bootup/startup of the server where it is installed.
+> systemctl disable docker
+
+to configure a program to be setup as service which can be started/stopped/enabled/disabled using systemctl
+/etc/systemd/system
+
+once a .service is added to this file , we need to reload the systemd deamons to pick up the new file .service as service
+> systemctl daemon-reload
+
+example.service
+---------------------
+[Unit]
+Description=My python web app
+
+[Service]
+ExecStart=<command>
+ExecStartPre=/opt/code/configure_db.sh
+ExecStartPost=/opt/code/email.sh
+Restart=always
+
+
+[install]
+wantedBy=multi-user.target
+
+
+IP Address:
+> ifconfig
+> ip addr show
+
+switch creates network via connecting multiple computers(hosts) to each other for communication.
+to connect computers(hosts) to a switch each computer needs an inteface (ethernet or wirelss adapters)
+
+to see the interface available on the host we use the below command:
+> ip link
+>ip addr
+
+let's assume the switch has created the network with the address : 192.168.1.0 
+we then assign the systems(hosts) with ip addresses on the same network.
+
+>ip addr add 192.168.1.10/24 dev eth0
+
+once the switch link is up and the ip adresses are assigned , the computers can now communicate
+eachother through the switch within the same network.
+>ping <other_ip>
+---------------------------------------------------------------------
+now if we have multiple netowrks created by multiple switches, to make connection among such networks, we use routers.
+
+A router helps to connect 2 networks together.
+
+
+for a host in a specific network to send certain package to another host which is situaed at another network,
+the 1st host needs to know the route information of the router, also known as gateway.
+>route
+
+Let's assume:
+my network : 192.168.1.0
+to reach another network with address 192.168.2.0/24 via the gateway 192.168.1.1 run the Command
+>ip route add 192.168.2.0/24 via 192.168.1.1
+>ip route add <destination> via <gateway>
+>ip route add default via 192.168.1.1
+
+default(0.0.0.0) means we can connect to any netowork available over internet.
+
+if in routing table gateway value is 0.0.0.0 for a specific destination it means the destination is on
+the same network and we don't need any gateway toa communicate that destination.
+
+
+if forward:
+/proc/sys/net/ipv4/ip_forward
+1
+
+DNS:
+=======
+> cat >> /etc/hosts
+192.168.1.11 db
+
+DNS : /etc/resolv.conf
+
+nslookup,dig to look up dns server.
+
+=============================
+java JDK consists of:
+Develop: jdb, javadoc
+build : javac, jar
+run : JRE, java command line utilities
+
+java installation on linux:
+sudo curl https://download.java.net/java/GA/jdk13.0.2/d4173c853231432d94f001e99d882ca7/8/GPL/openjdk-13.0.2_linux-x64_bin.tar.gz --output /opt/openjdk-13.0.2_linux-x64_bin.tar.gz
+
+sudo tar -xf /opt/openjdk-13.0.2_linux-x64_bin.tar.gz -C /opt/
+
+/opt/jdk-13.0.2/bin/java -version
+
+to add java binaries to PATH variable :
+export PATH=$PATH:/opt/jdk-13.0.2/bin
+
+build and packaging:
+coding : myClass.java
+compiling : javac myClass.java --> myClass.class
+running : java myClass.class
+
+Human code --> javac --> intermediate byte code --> JVM --> machine code
+jar : java archive which consists of .class files along with dependencies
+war : web archive which consists of .class files along with .html .png or other files
+
+$jar cf MyApp.jar myClass.class Service1.class Service2.class ...
+
+it generates the package MyApp.jar . within the package there is a manifest file that gets
+created.
+META-INF/MANIFEST.MF
+Manifest-version: 1.0
+Created-By: 1.8.0_242 (Private Build)
+Main-Class: MyClass
+
+to run this package:
+$ java -jar MyApp.jar
+to document the code:
+$ javadoc -d /opt/app/doc MyClass.java
+
+Java build tools:
+Maven
+Gradle
+ANT
+find the example config file for ANT which includes all the steps like compiling, documenting and packaging 
+in one single xml file (exampleBuild.xml) which does the follwoing 3 steps:
+
+1. javac MyClass.java
+2. javadoc MyClass.java
+3. jar cf MyClass.jar MyClass.class ...
+
+once the exampleBuild.xml file is created , we run the following cmmand :
+$ant 
+$ant <target_name1> <target_name2>
+
+the config file for Maven build tool : pom.xml
+to build the application go to the same dir where pom.xml is present and then run:
+$mvnw clean install
+to compile and package:
+$mvn package
+
+
+for gradle : build.gradle
+to build the app:
+$ ./gradlew build
+to run the app:
+$ ./gradlew run
+
+=========================================================
+npm : node package manager
+$ npm install <package>@<version>
+to install a package available globally 
+$ npm install -g <package>@<version>
+$ npm search <package>
+$ npm -v
+
+to list the paths where node checks for downloaded packages :
+$ node -e "console.log(module.paths)"
+
+application dependencies : package.json
+
+
+to see where the package is installed in python:
+$ pip show flask
+$ pip install -r requirements.txt
+
+=============================================================================
+
+SSL : secure sockets layer
+TLS : transport layer security
+to copy the publick key to the other server for keyless ssh connection
+$ ssh-copy-id -i ~/.ssh/mykey.pub thor@app01
+
+to create a certificate signing request (CSR) using openssl
+$ sudo openssl req -new -newkey rsa:2048 -nodes -keyout app01.key -out app01.csr
+
+it will create app01.csr & app01.key
+
+to create our own signed certificate:
+$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout app01.key -out app01.crt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
