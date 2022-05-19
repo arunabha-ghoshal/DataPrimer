@@ -12,3 +12,8 @@
 *.ipynb_checkpoints
 *.bin
 **/Course201ML
+PythonCookBook/phase1.ipynb
+get_remote_log_error.sh
+get_talend_log_error_v1.py
+old_tptbuild.sh
+rabbitMQ_poc/.env
