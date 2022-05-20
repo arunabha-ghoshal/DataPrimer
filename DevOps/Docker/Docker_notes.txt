@@ -228,7 +228,7 @@ docker run --network=wp-mysql-network -e DB_Host=mysql-db -e DB_Password=db_pass
 docker registry: (in the command registry should always be mentioned without https://)
 ===============
 docker run/pull/push <registry>/<user-account>/<image-repo>:tag
-e-din-docker-local.docker.lowes.com/daci/spark-py:spark-3.1.1
+
 
 we can tag our local image for a specific private registry:
 docker image tag my-image <registry:port>/my-image
@@ -239,9 +239,9 @@ docker image tag nginx:latest localhost:5000/nginx:latest
 docker push localhost:5000/nginx:latest
 
 or 
-$ docker login https://e-din-docker-local.docker.lowes.com
-docker build . -t e-din-docker-local.docker.lowes.com/${projectName}/${appName}:${imgTg}
-docker push e-din-docker-local.docker.lowes.com/${projectName}/${appName}:${imgTg}
+$ docker login <registry>
+docker build . -t <registry>/${projectName}/${appName}:${imgTg}
+docker push <registry>/${projectName}/${appName}:${imgTg}
 
 
 to remove all the dangling imnages locally:
