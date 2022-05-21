@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project name="Ant" default="main" basedir=".">
+    <!--compiles the java code-->
+    <target name="compile">
+        <javac srcdir="/app/src" destdir="/app/build">
+        </javac>
+    </target>
+    <!--Creates Javadoc-->
+    <target name="docs" depends="compile">
+        <javadoc packagenames="src" sourcepath="/app/src" destdir="app/docs">
+        <!--define which files / directory should get included-->
+            <fileset dir="/app/src">
+                <include name="**" />
+            </filset>
+        </javadoc>
+    </target>
+    <!--creates the deployable jar file-->
+    <target name="jar" depends="compile">
+        <jar basedir="/app/build" destfile="/app/dist/MyClass.jar">
+            <manifest>
+                <attribute name="main-class" value="MyClass" />
+            </manifest>
+        </jar>
+    </target>
+    <target name="main" depends="compile, jar, docs">
+        <description>Main target</description>
+    </target>
+</prject>

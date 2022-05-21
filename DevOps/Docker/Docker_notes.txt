@@ -1,0 +1,261 @@
+#notes:
+follow docker installation steps : using get-docker.sh from the official website : docs.docker.com (get docker)
+(use of sudo is subjected to the permissions needed to run docker)
+
+docker host : the node/compuer/server/os where docker is installed to use docker services.
+
+to start docker services :
+
+either :
+$ sudo service docker start
+
+or :
+
+$ sudo dockerd
+
+or :
+
+$ sudo systemctl enable docker
+$ sudo systemctl start docker
+
+check the version:
+$ sudo docker version
+
+basic commands:
+1. docker run : to instantiate a docker image into a running instance called a container 
+ps : running instance of a Docker Image is called an Container and hence in short, docker run command is used to run
+a container from a docker image:
+$ sudo docker run nginx
+
+2. docker ps command is used to list all running containers
+$ sudo docker ps 
+to list all the running/non-running/exited/ever existed containers on the current docker host:
+$ sudo docker ps -a
+
+3. to stop a running container :
+$ sudo docker stop <container_id>/<container_name>
+
+4. to remove a stopped/exited container and hence free up the space on docker host:
+$ sudo docker rm <container_id>/<container_name>
+
+5. to list the docker images downloaded to loacal host from dockerhub(or via own dockerFile):
+$ sudo docker images
+
+6. to remove an image from local host , we 1st need to make sure we have stopped and removed all the containers
+of that particular image before attempting to remove the image itself.
+and then to remove the image:
+$ sudo docker rmi <image_name>
+
+(not going to mention sudo anymore)
+7. To just download a docker image to docker host from docker hub withput running it :
+$ docker pull <image_name>
+
+8. if a container doesn't contain a process in it in that case when docker run command runs an container and exits immediately.
+for example any operating system images .
+$ docker run ubuntu
+
+the container will exit as soon as it finishes running , because it doesn't have any process to run.
+to make it run for some time we can append command.
+$ docker run ubuntu sleep 10
+
+9. to execute a command on a running container:
+$ docker exec <container_name/id> <command>
+$ docker exec ubuntu cat /etc/host
+
+
+10. run - attach & detach
+by default docker runs the container on attached mode. the prompy becomes busy if the conainer has such process.
+in that case we can run the containers in detach mode.
+$ docker run -d ubuntu sleep 100
+
+to reattach the container on current prompt :
+docker attach <container_id>
+
+to automatically be logged into a container when it is being run: we can use the option -it
+docker run -it centos bash
+
+while running a container we can also name the running container :
+docker run -d --name webapp nginx:1.14-alpine
+
+
+
+docker run :
+============================
+to run a specific version of image:
+$ docker run <image_name>:<tag>
+$ docker run redis:4.0
+
+to map our stdin to a docker container so that we can provide input to our container from stdin :(interactive mode)
+$ docker run -i <image_name>
+
+to directly connect to our container's prompt (stdin) instead of enabling input from docker host (my laptop) stdin 
+we can use -it (t stands for pseudo terminal)
+so to directly intercat with my container's prompt/terminal/stdin:
+$ docker run -it <image_name>
+
+port-mapping:
+$ docker run -p <port for docker host ip>:<port of container ip where the app is running> <image_name>
+ps : underlying host(server/node/laptop) where docker is installed is called docker host/engine.
+
+volume mapping:
+docker run -p 8080:8080 -v <volume_of_docker_host>:<volume_of_container> -u <some_user> jenkins
+
+volume-mapping
+$ docker run -r <dir on docker host>:<data dir on container> mysql
+
+inspect container:
+$ docker inspect <container name/id>
+
+
+container logs:
+when we run any container in detached -d mode, we don't get to see the logs of the container on the stdin of our
+docker host , in that case 
+$ docker logs <container name/id>
+
+
+
+How to create your own image :
+=================================
+1. Create a dockerfile with all the instruction/steps
+2. docker build Dockerfile -t biswadeep27/my-custom-app:tag
+docker login
+3. docker push  biswadeep27/my-custom-app (to push the image to docker registry : in this case docker hub)
+
+Environment variable in container:
+$ docker run -e APP_COLOR=blue <my-app-image>
+
+to inspect env variable of a running container:
+$ docker inspect <container-name>
+
+
+
+Run the command : docker run -p 38282:8080 --name blue-app -e APP_COLOR=blue -d kodekloud/simple-webapp
+To know the env field from within a webapp container, run 
+$ docker exec -it <container-name> env
+
+
+
+Run the command: docker run -d -e MYSQL_ROOT_PASSWORD=db_pass123 --name mysql-db mysql
+To know the env field from within a mysql-db container, run 
+$ docker exec -it <container-name> env
+
+to set the name of a container we can pass on the --name argument.
+
+Commands & Entrypoints:
+=======================
+Command:
+the dafault command to run when the container is started is described by CMD and the container lives until the CMD command process is active.
+CMD ["bash"]
+CMD ["command","prm1"...]
+CMD commad prm1 ...
+
+Entrypoints: 
+In this case the command line arguments if any get appended after the instruction mentioned by ENTRYPOINT.
+
+Image:
+From ubuntu
+
+ENTRYPOINT ["sleep"]
+
+dockername : ubuntu-sleeper
+
+$ docker run ubuntu-sleeper 10
+which is equivalent of 
+CMD sleep 10
+
+command line parametes override CMD but appends after ENTRYPOINT.
+
+to give a default prm to ENTRYPOINT we can have a CMD:
+Image:
+From ubuntu
+
+ENTRYPOINT ["sleep"]
+CMD ["5"]
+
+to override entrypoint at run time , use --entrypoint
+docker run --entrypoint <imaginery-sleep-cmd> ubuntu-sleeper 10
+
+
+
+Docker Compose:
+====================
+write a yml file with all the docker run instructions and then run
+$ docker-compose up
+
+we can use --link to establish links between multiple running containers
+
+let's say cnt1 is dependednt on cnt2 and cnt2 is already up and running by the name TBND.(docker run --name TBND <cnt2_image>)
+in code of cnt1 we are looking up for cnt2 by the name TGND.
+so while starting cnt1 ,
+$ docker run TGND:TBND <cnt1_iamge>
+
+===========
+docker CLI
+docker Rest APIs
+docker Daemons
+
+====
+docker -H=remote-docker-engine:2345 run redis
+====
+docker run --cpus=.5 ubuntu
+docker run --memory=100m ubuntu
+
+docker run -v /data/mysql:/var/lib/mysql mysql
+or
+docker run --mount type=bind,source=/data/mysql,target=/var/lib/mysql mysql
+
+2 types : bind or volume 
+
+docker exec mysql-db mysql -pdb_pass123 -e 'use foo; select * from myTable'
+
+
+
+Networking:
+by default docker created 3 networks : bridge,none,host
+when we run a container it gets linked to bridge network
+
+$ docker run --network=host ubuntu
+
+docker network ls
+docker inspect <container_name>
+docker network inspect bridge
+docker network create --driver bridge --subnet 182.18.0.1/24 --gateway 182.18.0.1 wp-mysql-network
+docker network inspect wp-mysql-network
+docker run -d -e MYSQL_ROOT_PASSWORD=db_pass123 --name mysql-db --network wp-mysql-network mysql:5.6
+docker run --network=wp-mysql-network -e DB_Host=mysql-db -e DB_Password=db_pass123 -p 38080:8080 --name webapp 
+--link mysql-db:mysql-db -d kodekloud/simple-webapp-mysql
+
+docker registry: (in the command registry should always be mentioned without https://)
+===============
+docker run/pull/push <registry>/<user-account>/<image-repo>:tag
+
+
+we can tag our local image for a specific private registry:
+docker image tag my-image <registry:port>/my-image
+docker push <registry:port>/my-image
+
+docker run -d -p 5000:5000 --restart=always --name my-registry registry:2
+docker image tag nginx:latest localhost:5000/nginx:latest
+docker push localhost:5000/nginx:latest
+
+or 
+$ docker login <registry>
+docker build . -t <registry>/${projectName}/${appName}:${imgTg}
+docker push <registry>/${projectName}/${appName}:${imgTg}
+
+
+to remove all the dangling imnages locally:
+docker image prune -a
+
+
+
+/Users/bupadhy/pg
+
+docker run -d \
+	--name pg-raj \
+	-e POSTGRES_PASSWORD=postgres \
+	-e PGDATA=/var/lib/postgresql/data/pgdata \
+	-v /Users/bupadhy/pg:/var/lib/postgresql/data \
+	postgres
+
+docker run -d --name pg-raj -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v /Users/bupadhy/pg:/var/lib/postgresql/data postgres

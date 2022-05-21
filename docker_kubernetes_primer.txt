@@ -1,0 +1,27 @@
+
+
+docker host : the OS where Docker is installed to containerize the OS and underlying Physical server.
+
+image : pre packed application , vm template : evrything needed to run an application wrapped up in a single bundle.
+
+once an image is downloaded to docker host from container registry (dockerHub) : we can list the images :
+
+$ docker image ls
+
+to fire up a container from an image :
+
+$ docker container run -d --name web -p 8080:8080 <image_repo_name>:1
+
+image_repo_name = repo/image-demo
+
+to stop the running container
+$ docker stop web
+
+to start the container
+$ docker container start web
+
+Docker the tech : making containers easy
+
+
+
+
