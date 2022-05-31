@@ -1,1 +1,3 @@
 ## MLOps Zoomcamp
+to start mlflow UI witrh backend uri:
+$ mlflow ui --backend-store-uri sqlite:///mlflow.db
