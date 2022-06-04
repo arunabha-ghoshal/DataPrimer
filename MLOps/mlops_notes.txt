@@ -1,3 +1,19 @@
 ## MLOps Zoomcamp
 to start mlflow UI witrh backend uri:
 $ mlflow ui --backend-store-uri sqlite:///mlflow.db
+
+mlflow server --backend-store-uri sqlite:///backend.db --default-artifact-root ./mlruns
+(Option 'default-artifact-root' is required when backend store is not local file based)
+
+
+RDS : postgreSQL
+mlflow
+E0kyepCm3cPQpfnkZ9LN
+
+endpoint:
+mlflow-backend-db.cfdmyyf641yc.ap-south-1.rds.amazonaws.com
+
+port:
+5432
+
+mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri postgresql://mlflow:E0kyepCm3cPQpfnkZ9LN@mlflow-backend-db.cfdmyyf641yc.ap-south-1.rds.amazonaws.com:5432/mlflow_db --default-artifact-root s3://mlflow-artifacts-raj

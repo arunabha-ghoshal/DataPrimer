@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bupadhy/Library/CloudStorage/OneDrive-Lowe%27sCompaniesInc/Documents/DataScience/MLOps/02-experiment-tracking/running-mlflow-examples/mlruns/1/52921e9cf480483b876cac5ed3a44880/artifacts
+end_time: 1654170425531
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: 52921e9cf480483b876cac5ed3a44880
+run_uuid: 52921e9cf480483b876cac5ed3a44880
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1654170418673
+status: 3
+tags: []
+user_id: bupadhy
