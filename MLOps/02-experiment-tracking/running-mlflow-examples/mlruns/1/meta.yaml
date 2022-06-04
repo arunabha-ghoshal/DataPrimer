@@ -1,0 +1,4 @@
+artifact_location: file:///Users/bupadhy/Library/CloudStorage/OneDrive-Lowe%27sCompaniesInc/Documents/DataScience/MLOps/02-experiment-tracking/running-mlflow-examples/mlruns/1
+experiment_id: '1'
+lifecycle_stage: active
+name: my-experiment-1

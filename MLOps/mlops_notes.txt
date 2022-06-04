@@ -1,1 +1,10 @@
 ## MLOps Zoomcamp
+to start mlflow UI witrh backend uri:
+$ mlflow ui --backend-store-uri sqlite:///mlflow.db
+
+mlflow server --backend-store-uri sqlite:///backend.db --default-artifact-root ./mlruns
+(Option 'default-artifact-root' is required when backend store is not local file based)
+
+
+mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri postgresql://DB_USER:DB_PASSWORD@DB_ENDPOINT:5432/DB_NAME --default-artifact-root s3://S3_BUCKET_NAME
+

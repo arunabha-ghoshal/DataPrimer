@@ -1,0 +1,63 @@
+spark : a Definitive guide:
+===============================
+
+Narrow transformation — In Narrow transformation, all the elements that are required to compute the records in single partition live in the single partition of parent RDD. A limited subset of partition is used to calculate the result. Narrow transformations are the result of map(), filter().
+
+Wide transformation — In wide transformation, all the elements that are required to compute the records in the single partition may live in many partitions of parent RDD. The partition may live in many partitions of parent RDD. Wide transformations are the result of groupbyKey and reducebyKey.
+
+
+Actions
+Transformations create RDDs from each other, but when we want to work with the actual dataset, at that point action is performed. When the action is triggered after the result, new RDD is not formed like transformation. Thus, actions are RDD operations that give non-RDD values. The values of action are stored to drivers or to the external storage system. It brings laziness of RDD into motion.
+Spark drivers and external storage system store the value of action. It brings laziness of RDD into motion.
+
+An action is one of the ways of sending data from Executer to the driver. Executors are agents that are responsible for executing a task. While the driver is a JVM process that coordinates workers and execution of the task.
+
+Spark workflow:
+-----------------
+
+STEP 1: The client submits spark user application code. When an application code is submitted, the driver implicitly converts user code that contains transformations and actions into a logically directed acyclic graph called DAG. At this stage, it also performs optimizations such as pipelining transformations.
+
+STEP 2: After that, it converts the logical graph called DAG into physical execution plan with many stages. After converting into a physical execution plan, it creates physical execution units called tasks under each stage. Then the tasks are bundled and sent to the cluster.
+
+STEP 3: Now the driver talks to the cluster manager and negotiates the resources. Cluster manager launches executors in worker nodes on behalf of the driver. At this point, the driver will send the tasks to the executors based on data placement. When executors start, they register themselves with drivers. So, the driver will have a complete view of executors that are executing the task.
+
+STEP 4: During the course of execution of tasks, driver program will monitor the set of executors that runs. Driver node also schedules future tasks based on data placement. 
+
+
+transformation-> action -> job -> stage -> task
+
+1. Application : It could be single command or combination of commands with complex logic. When code is submitted to spark for execution, the application kicks off.
+
+2. Job : When an application is submitted to spark, driver process converts the code  into job.
+
+3. Stage : Jobs are divided into stages. If the application code demands shuffling data accross nodes, new stage is created. Number of stages are determined by the 
+number of shuffling operation.
+
+4. Task : Stages are further divided into multiple tasks, In a stage, all the tasks would execute same logic. Each task would process one partition at a time. So number of partition in the distributed cluster, would determine the number of task at each stage.
+
+1 task = 1 slot = 1 core =  1 partition (Physical execution unit)
+
+Executor Memory :
+
+for a 32 GB RAM(On-Heap Memory) on each executor ->
+
+~300 MB -> Reserved Memory
+40 % ~ 13 GB -> User memory -> to store metadata and other objects 
+60 % ~ 19 GB -> Unified Memory
+
+Unified Memory = 50% Storage Memory (Partitons/persist) + 50 % Execution/Processing Memory (by default but can be configured.)
+
+
+Executors  have off-heap memory as well (Disks)
+
+
+
+f"{str(((h+(d//60))%24) + ((m + (d%60))//60))}:{str(((m + (d%60))%60))}"
+
+
+
+
+
+
+
+
